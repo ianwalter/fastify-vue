@@ -3,7 +3,11 @@
   [Fastify](https://www.fastify.io/) plugin
 
 ```js
-app.register(fastifyVueSsr, {
+const fastifyVue = require('fastify-vue')
+const webpack = require('webpack')
+const { createBundleRenderer } = require('vue-server-renderer')
+
+app.register(fastifyVue, {
   templatePath: join(__dirname, 'server/index.html'),
   distPath: join(__dirname, 'dist'),
   clientConfig,

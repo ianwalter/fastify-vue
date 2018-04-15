@@ -1,6 +1,6 @@
 {
   "name": "fastify-vue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vue.js Server-Side Rendering (SSR) Fastify plugin",
   "main": "index.js",
   "scripts": {
@@ -21,9 +21,7 @@
     "fastify-plugin": "^0.2.2",
     "fastify-static": "^0.10.0",
     "vue-server-renderer": "^2.5.16",
-    "webpack": "^4.5.0"
-  },
-  "devDependencies": {
+    "webpack": "^4.5.0",
     "webpack-dev-middleware": "^3.1.2",
     "webpack-hot-middleware": "^2.21.2"
   }

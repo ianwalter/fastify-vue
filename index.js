@@ -32,6 +32,7 @@ module.exports = fastifyPlugin(function (fastify, options, next) {
       clientManifest: require(manifestPath)
     })
   } else {
+    const WebpackDevMiddleware = require('webpack-dev-middleware')
     let serverBundle
     let clientManifest
 
@@ -62,12 +63,15 @@ module.exports = fastifyPlugin(function (fastify, options, next) {
     })
 
     //
-    const devMiddleware = require('webpack-dev-middleware')(clientCompiler, {
+    const devMiddleware = WebpackDevMiddleware(clientCompiler, {
       publicPath: clientConfig.output.publicPath,
       logger: fastify.log,
       ...(stats !== undefined ? { stats } : {})
     })
     fastify.use(devMiddleware)
+
+    // TODO
+    // process.on('SIGTERM', () => devMiddleware.close())
 
     //
     fastify.use(require('webpack-hot-middleware')(clientCompiler))
