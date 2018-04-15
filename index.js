@@ -3,6 +3,7 @@ const fastifyStatic = require('fastify-static')
 const { readFileSync } = require('fs')
 const { join } = require('path')
 const MemoryFileSystem = require('memory-fs')
+const webpack = require('webpack')
 
 module.exports = fastifyPlugin(function (fastify, options, next) {
   const {
@@ -11,7 +12,6 @@ module.exports = fastifyPlugin(function (fastify, options, next) {
     distPath,
     templatePath,
     createBundleRenderer,
-    webpack,
     stats
   } = options
   const isProduction = process.env.NODE_ENV === 'production'
@@ -69,9 +69,6 @@ module.exports = fastifyPlugin(function (fastify, options, next) {
       ...(stats !== undefined ? { stats } : {})
     })
     fastify.use(devMiddleware)
-
-    // TODO
-    // process.on('SIGTERM', () => devMiddleware.close())
 
     //
     fastify.use(require('webpack-hot-middleware')(clientCompiler))
