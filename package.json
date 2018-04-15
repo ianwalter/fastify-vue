@@ -1,0 +1,30 @@
+{
+  "name": "fastify-vue",
+  "version": "1.0.0",
+  "description": "Vue.js Server-Side Rendering (SSR) Fastify plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ianwalter/fastify-vue.git"
+  },
+  "keywords": [
+    "fastify",
+    "vue",
+    "ssr"
+  ],
+  "author": "Ian Walter <public@iankwalter.com> (https://iankwalter.com)",
+  "license": "ISC",
+  "dependencies": {
+    "fastify-plugin": "^0.2.2",
+    "fastify-static": "^0.10.0",
+    "vue-server-renderer": "^2.5.16",
+    "webpack": "^4.5.0"
+  },
+  "devDependencies": {
+    "webpack-dev-middleware": "^3.1.2",
+    "webpack-hot-middleware": "^2.21.2"
+  }
+}
