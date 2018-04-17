@@ -1,6 +1,6 @@
 {
   "name": "fastify-vue",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Vue.js Server-Side Rendering (SSR) Fastify plugin",
   "main": "index.js",
   "scripts": {
@@ -18,6 +18,7 @@
   "author": "Ian Walter <public@iankwalter.com> (https://iankwalter.com)",
   "license": "ISC",
   "dependencies": {
+    "fastify": "^1.2.1",
     "fastify-plugin": "^0.2.2",
     "fastify-static": "^0.10.0",
     "vue-server-renderer": "^2.5.16",

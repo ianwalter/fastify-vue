@@ -14,24 +14,15 @@ module.exports = fastifyPlugin(function (fastify, options, next) {
     createBundleRenderer,
     stats
   } = options
-  const isProduction = process.env.NODE_ENV === 'production'
+  const { NODE_ENV } = process.env
+  const isDevelopment = !NODE_ENV  || NODE_ENV === 'development'
   const bundlePath = join(distPath, 'vue-ssr-server-bundle.json')
   const template = readFileSync(templatePath, 'utf-8')
   const staticPath =  join(distPath, 'static')
   const manifestPath = join(staticPath, 'vue-ssr-client-manifest.json')
 
   let renderer
-  if (isProduction) {
-    //
-    fastify.register(fastifyStatic, { root: staticPath, prefix: '/static/' })
-
-    //
-    renderer = createBundleRenderer(require(bundlePath), {
-      runInNewContext: false,
-      template,
-      clientManifest: require(manifestPath)
-    })
-  } else {
+  if (isDevelopment) {
     const WebpackDevMiddleware = require('webpack-dev-middleware')
     let serverBundle
     let clientManifest
@@ -71,12 +62,24 @@ module.exports = fastifyPlugin(function (fastify, options, next) {
     fastify.use(devMiddleware)
 
     //
-    fastify.use(require('webpack-hot-middleware')(clientCompiler))
+    fastify.use(require('webpack-hot-middleware')(clientCompiler, {
+      reload: true
+    }))
+  } else {
+    //
+    fastify.register(fastifyStatic, { root: staticPath, prefix: '/static/' })
+
+    //
+    renderer = createBundleRenderer(require(bundlePath), {
+      runInNewContext: false,
+      template,
+      clientManifest: require(manifestPath)
+    })
   }
 
-  fastify.get('*', async ({ req }, reply) => {
+  fastify.get('*', async (request, reply) => {
     try {
-      const app = await renderer.renderToString({ url: req.url })
+      const app = await renderer.renderToString({ url: request.req.url })
       reply.type('text/html').send(app)
     } catch (error) {
       reply.send(error)
