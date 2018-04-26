@@ -12,6 +12,8 @@ app.register(fastifyVue, {
   clientConfig,
   serverConfig,
   createBundleRenderer,
-  stats: { all: false, assets: true, colors: true }
+  stats: { all: false, errors: true, assets: true, colors: true },
+  development: process.env.NODE_ENV !== 'production',
+  createContext: (request, reply) => ({ url: request.req.url })
 })
 ```

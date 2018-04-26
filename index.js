@@ -13,7 +13,8 @@ module.exports = fastifyPlugin(function (fastify, options, next) {
     templatePath,
     createBundleRenderer,
     stats,
-    development
+    development,
+    createContext
   } = options
   const { NODE_ENV } = process.env
   const isDevelopment = development || !NODE_ENV  || NODE_ENV === 'development'
@@ -96,16 +97,7 @@ module.exports = fastifyPlugin(function (fastify, options, next) {
   }
 
   fastify.get('*', async (request, reply) => {
-    // Create the context object that will be used by the server entry to set
-    // up the Vue.js application.
-    const context = { url: request.req.url }
-
-    // If the request is decorated with the csrfToken function via fastify-csrf
-    // and the session is assigned to a User, generate a new CSRF token and add
-    // it to the context so that it can be added to the store on server entry.
-    if (request.csrfToken && request.session.userId) {
-      context.csrfToken = request.csrfToken()
-    }
+    const context = createContext ? createContext(request, reply) : {}
 
     // Use the renderer to generate the HTML that will be sent to the client.
     try {
